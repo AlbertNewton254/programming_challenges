@@ -8,7 +8,6 @@
 
 #define MAX_NUM 1e6;	// max number we will consider
 
-
 /*
  * collatzLength	:	function to calculate collatz sequence length for a given number
  * @param n		:	number to calculate the sequence length for
