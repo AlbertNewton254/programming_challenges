@@ -1,5 +1,5 @@
 /**
- * @file pg_02_the_trip.c
+ * @file pg_03_the_trip.c
  * @author miguel
  * @brief For each of m sets of n floats, calculates how much must be exchanged 
  * between individuals so that everyone has the same amount (equal to the average).
