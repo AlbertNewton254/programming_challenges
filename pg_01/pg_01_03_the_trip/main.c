@@ -47,7 +47,7 @@ float average(float numbers[MAX_STUDENTS], int n)
  * @param n Number of elements in the array.
  * @return Total amount to be exchanged to reach the average, rounded to two decimal places.
  */
-float totalExchange(float numbers[MAX_STUDENTS], int n)
+float total_exchange(float numbers[MAX_STUDENTS], int n)
 {
 	float exchange = 0;
 	float avg = average(numbers, n);
@@ -110,7 +110,7 @@ int main()
 				}
 			}
 		}
-		float exchange = totalExchange(expenses, n);
+		float exchange = total_exchange(expenses, n);
 		printf("$%.2f\n", exchange);
 	}
 

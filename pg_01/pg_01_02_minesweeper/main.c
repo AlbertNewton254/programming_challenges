@@ -20,7 +20,7 @@
  * @param col The column index of the cell to check.
  * @return Number of adjacent mines around the specified cell.
  */
-int countAdjacentMines(char grid[][MAX_COLUMN], int rows, int cols, int row, int col)
+int count_adjacent_mines(char grid[][MAX_COLUMN], int rows, int cols, int row, int col)
 {
 	int count = 0;
 
@@ -33,12 +33,12 @@ int countAdjacentMines(char grid[][MAX_COLUMN], int rows, int cols, int row, int
 
 	for (int i = 0; i < 8; i++)
 	{
-		int newRow = row + directions[i][0];
-		int newCol = col + directions[i][1]; // Corrigido: aqui era 'row + ...', virou 'col + ...'
+		int new_row = row + directions[i][0];
+		int new_col = col + directions[i][1];
 
-		if (newRow >= 0 && newRow < rows && newCol >= 0 && newCol < cols)
+		if (new_row >= 0 && new_row < rows && new_col >= 0 && new_col < cols)
 		{
-			if (grid[newRow][newCol] == '*')
+			if (grid[new_row][new_col] == '*')
 			{
 				count++;
 			}
@@ -55,7 +55,7 @@ int countAdjacentMines(char grid[][MAX_COLUMN], int rows, int cols, int row, int
  * @param rows Number of rows in the grid.
  * @param cols Number of columns in the grid.
  */
-void printMinesweeperGrid(char grid[][MAX_COLUMN], int rows, int cols)
+void print_minesweeper_grid(char grid[][MAX_COLUMN], int rows, int cols)
 {
 	for (int i = 0; i < rows; i++)
 	{
@@ -67,7 +67,7 @@ void printMinesweeperGrid(char grid[][MAX_COLUMN], int rows, int cols)
 			}
 			else
 			{
-				int count = countAdjacentMines(grid, rows, cols, i, j);
+				int count = count_adjacent_mines(grid, rows, cols, i, j);
 				printf("%d", count);
 			}
 		}
