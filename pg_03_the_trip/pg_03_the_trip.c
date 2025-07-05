@@ -1,7 +1,7 @@
 /**
  * @file pg_03_the_trip.c
  * @author miguel
- * @brief For each of m sets of n floats, calculates how much must be exchanged 
+ * @brief For each set of n floats, calculates how much must be exchanged 
  * between individuals so that everyone has the same amount (equal to the average).
  * 
  * The program supports multiple sets of values and computes the total exchange needed
@@ -11,37 +11,30 @@
 
 #include <stdio.h>
 #include <math.h>
-#define MAX_STUDENTS 1000
-#define MAX_MONEY 10000.00
+
+#define MAX_STUDENTS 1000 // Maximum amount of students
+#define MAX_MONEY 10000.0 // Maximum money per student
 
 /**
  * @brief Calculates the average of an array of n floats.
  * 
- * @param numbers Array of floats.
- * @param n Length of the array.
- * @return The average of the n values, or -1 if n is invalid.
+ * @param numbers Array of floats representing expenses.
+ * @param n Number of elements in the array.
+ * @return The average of the values, or -1 if n is invalid.
  */
 float average(float numbers[MAX_STUDENTS], int n)
 {
-	/* validate n */
 	if (n < 0 || n > MAX_STUDENTS)
 	{
 		return -1;
 	}
 
-	/* initialize average */
 	float avg = 0;
-
-	/* add n terms */
-	for (int i = 0 ; i < n ; i++)
+	for (int i = 0; i < n; i++)
 	{
 		avg += numbers[i];
 	}
-
-	/* then divide */
-	avg = avg / n;
-
-	return avg;
+	return avg / n;
 }
 
 /**
@@ -50,25 +43,21 @@ float average(float numbers[MAX_STUDENTS], int n)
  * Each person who has more than the average will need to give the excess away.
  * This function sums all such excesses.
  * 
- * @param numbers Array of floats.
- * @param n Length of the array.
- * @return Total amount to be exchanged to reach the average, or -1 if input is invalid.
+ * @param numbers Array of floats representing expenses.
+ * @param n Number of elements in the array.
+ * @return Total amount to be exchanged to reach the average, rounded to two decimal places.
  */
 float totalExchange(float numbers[MAX_STUDENTS], int n)
 {
-	/* initialize total exchange*/
 	float exchange = 0;
-
 	float avg = average(numbers, n);
 
-	/* validate */
 	if (avg == -1)
 	{
 		return -1;
 	}
 
-	/* for each term, how far above average? */
-	for (int i = 0 ; i < n ; i++)
+	for (int i = 0; i < n; i++)
 	{
 		float error = numbers[i] - avg;
 		if (error > 0)
@@ -77,10 +66,53 @@ float totalExchange(float numbers[MAX_STUDENTS], int n)
 		}
 	}
 
-	/* round to 2 decimal places */
+	// Round to two decimal places
 	exchange = floor(exchange * 100 + 0.5) / 100;
-
-	/* return total exchange */
 	return exchange;
 }
 
+/**
+ * @brief Main function that reads multiple sets of expenses and prints the total exchange needed.
+ * 
+ * The input consists of multiple groups. Each group starts with an integer n (number of students),
+ * followed by n float values representing individual expenses. Input ends when n is zero.
+ */
+int main()
+{
+	int n;
+	float expenses[MAX_STUDENTS];
+
+	while (1)
+	{
+		scanf("%d", &n);
+		/* validates n */
+		if (n < 0)
+		{
+			return -1;
+		}
+		
+		/* finishes when n equals 0 */
+		else if (n == 0)
+		{
+			break;
+		}
+
+		else
+		{
+			for (int i = 0; i < n; i++)
+			{
+				scanf("%f", &expenses[i]);
+
+				/* validates money per student */
+				if (expenses[i] < 0 || expenses[i] > MAX_MONEY)
+				{
+					break;
+				}
+			}
+		}
+		float exchange = totalExchange(expenses, n);
+		printf("$%.2f\n", exchange);
+	}
+
+	return 0;
+}
