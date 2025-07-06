@@ -1,30 +1,123 @@
 /**
  * @file pg_01_04_lcd_display.c
  * @author miguel
- * @brief Prints numbers in LCD format in a given scale.
+ * @brief Scalable LCD-style digit display using 7-segment representation.
  */
 
 #include <stdio.h>
 #include <string.h>
 
-const char segments[10][7] =
-{
-	{1, 1, 1, 0, 1, 1, 1}, // 0
-	{0, 0, 1, 0, 0, 1, 0}, // 1
-	{1, 0, 1, 1, 1, 0, 1}, // 2
-	{1, 0, 1, 1, 0, 1, 1}, // 3
-	{0, 1, 1, 1, 0, 1, 0}, // 4
-	{1, 1, 0, 1, 0, 1, 1}, // 5
-	{1, 1, 0, 1, 1, 1, 1}, // 6
-	{1, 0, 1, 0, 0, 1, 0}, // 7
-	{1, 1, 1, 1, 1, 1, 1}, // 8
-	{1, 1, 1, 1, 0, 1, 1}  // 9
+/* We have seven segments, so here we name them */
+typedef enum {
+    SEG_TOP = 0,
+    SEG_TOP_LEFT,
+    SEG_TOP_RIGHT,
+    SEG_MIDDLE,
+    SEG_BOTTOM_LEFT,
+    SEG_BOTTOM_RIGHT,
+    SEG_BOTTOM
+} Segment;
+
+/* Segment activation map for digits 0–9 */
+const int segments7[10][7] = {
+    {1,1,1,0,1,1,1}, // 0
+    {0,0,1,0,0,1,0}, // 1
+    {1,0,1,1,1,0,1}, // 2
+    {1,0,1,1,0,1,1}, // 3
+    {0,1,1,1,0,1,0}, // 4
+    {1,1,0,1,0,1,1}, // 5
+    {1,1,0,1,1,1,1}, // 6
+    {1,0,1,0,0,1,0}, // 7
+    {1,1,1,1,1,1,1}, // 8
+    {1,1,1,1,0,1,1}  // 9
 };
 
 /**
- * @brief Prints horizontal line 
+ * @brief Prints little horizontal slice for a given digit
+ * @param digit The digit we want to print
+ * @param s The scale
+ * @param seg The segment type
+ * @return A horizontal slice
  */
+void print_horizontal_slice(int digit, int s, Segment seg) {
+    printf(" ");
+    for (int i = 0; i < s; i++)
+        printf(segments7[digit][seg] ? "-" : " ");
+    printf(" ");
+}
 
-void print_horizontal
+/**
+ * @brief Prints little vertical slice for a given digit
+ * @param digit The digit we want to print
+ * @param s The scale
+ * @param left_seg The left-segment type
+ * @param right_seg A vertical slice
+ */
+void print_vertical_slice(int digit, int s, Segment left_seg, Segment right_seg) {
+    printf(segments7[digit][left_seg] ? "|" : " ");
+    for (int i = 0; i < s; i++)
+        printf(" ");
+    printf(segments7[digit][right_seg] ? "|" : " ");
+}
+
+/**
+ * @brief Prints a given number in LCD style
+ * @param number The number string
+ * @param s The scale
+ */
+void print_lcd_number(const char *number, int s) {
+    int len = strlen(number);
+
+    // Top segment
+    for (int i = 0; i < len; i++)
+    {
+        print_horizontal_slice(number[i] - '0', s, SEG_TOP);
+        printf(" ");
+    }
+    printf("\n");
+
+    // Upper vertical segments
+    for (int row = 0; row < s; row++) 
+    {
+        for (int i = 0; i < len; i++) 
+	{
+            print_vertical_slice(number[i] - '0', s, SEG_TOP_LEFT, SEG_TOP_RIGHT);
+            printf(" ");
+        }
+        printf("\n");
+    }
+
+    // Middle segment
+    for (int i = 0; i < len; i++) 
+    {
+        print_horizontal_slice(number[i] - '0', s, SEG_MIDDLE);
+        printf(" ");
+    }
+    printf("\n");
+
+    // Lower vertical segments
+    for (int row = 0; row < s; row++) 
+    {
+        for (int i = 0; i < len; i++) 
+	{
+            print_vertical_slice(number[i] - '0', s, SEG_BOTTOM_LEFT, SEG_BOTTOM_RIGHT);
+            printf(" ");
+        }
+        printf("\n");
+    }
+
+    // Bottom segment
+    for (int i = 0; i < len; i++) 
+    {
+        print_horizontal_slice(number[i] - '0', s, SEG_BOTTOM);
+        printf(" ");
+    }
+    printf("\n");
 
 
+/**
+ * @brief Main function
+ * @param n The number we want to print >= 0 and <= 99999999
+ * @param s The scale >=1  and =< 10
+ * @return The LCD representation of n in scale s
+ */
