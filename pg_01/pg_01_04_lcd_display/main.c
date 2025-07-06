@@ -37,7 +37,6 @@ const int segments7[10][7] = {
  * @param digit The digit we want to print
  * @param s The scale
  * @param seg The segment type
- * @return A horizontal slice
  */
 void print_horizontal_slice(int digit, int s, Segment seg) {
     printf(" ");
@@ -51,7 +50,7 @@ void print_horizontal_slice(int digit, int s, Segment seg) {
  * @param digit The digit we want to print
  * @param s The scale
  * @param left_seg The left-segment type
- * @param right_seg A vertical slice
+ * @param right_seg The right-segment slice
  */
 void print_vertical_slice(int digit, int s, Segment left_seg, Segment right_seg) {
     printf(segments7[digit][left_seg] ? "|" : " ");
@@ -113,11 +112,31 @@ void print_lcd_number(const char *number, int s) {
         printf(" ");
     }
     printf("\n");
-
+}
 
 /**
  * @brief Main function
- * @param n The number we want to print >= 0 and <= 99999999
- * @param s The scale >=1  and =< 10
- * @return The LCD representation of n in scale s
  */
+int main()
+{
+	int s;
+	char number[9];
+	printf("Enter scale (1-10): ");
+	scanf("%d", &s);
+	if (s < 1 || s > 10)
+	{
+		printf("Invalid scale. Must be between 1 and 10.\n");
+		return 1;
+	}
+
+	printf("Enter number: ");
+	scanf("%s", number);
+	if (strlen(number) > 8)
+	{
+		printf("Number too long. Max 8 digits.\n");
+		return 1;
+	}
+
+	print_lcd_number(number, s);
+	return 0;
+}
