@@ -10,18 +10,27 @@ Each problem is organized in its own folder, named according to the chapter and 
 
 ## Technologies Used
 
-- Language: **C**
-- Build System: Manual compilation (e.g., `gcc main.c -o solution`)
+- Language: **C** and Java
+- Build System: Manual compilation (e.g., `gcc main.c -o solution`, `javac Main.java`)
 - Platform: Cross-platform (tested on Unix-like systems)
 
 ## Getting Started
 
-To compile and run a solution:
+To compile and run a C solution:
 
 ```bash
 cd pg_xx_xx_problem_name
 gcc pg_xx_xx_problem.c -o problem
-./problem
+./problem_name
+```
+
+To compile and run a Java solution:
+
+```bash
+cd pg_xx_xx_problem_name
+...
+javac Main.java
+java Main
 ```
 
 Change the process above for each folder and executable name.
