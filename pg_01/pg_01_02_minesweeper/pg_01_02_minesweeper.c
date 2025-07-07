@@ -1,24 +1,24 @@
 /**
- * @file pg_02_minesweeper.c
+ * @file pg_01_02_minesweeper.c
  * @author miguel
- * @brief Given a minesweeper grid, calculates the number of adjacent mines for each cell
+ * @brief Given a minesweeper grid, prints a representation where non-mine cells display the count of adjacent mines.
  * and maps it into a new grid representation.
  */
 
 #include <stdio.h>
 
-#define MAX_COLUMN 100	///< Max number of columns allowed
+#define MAX_COLUMN 100 Max number of columns	
 
 /**
  * @brief Counts the number of adjacent mines around a specific cell in the grid.
  *
  * @param grid 2D array representing the minesweeper grid.
- *             Cells with mines are marked with '*'.
  * @param rows Number of rows in the grid.
  * @param cols Number of columns in the grid.
  * @param row The row index of the cell to check.
  * @param col The column index of the cell to check.
  * @return Number of adjacent mines around the specified cell.
+ * Cells with mines are marked with '*'.
  */
 int count_adjacent_mines(char grid[][MAX_COLUMN], int rows, int cols, int row, int col)
 {
@@ -71,7 +71,19 @@ void print_minesweeper_grid(char grid[][MAX_COLUMN], int rows, int cols)
 				printf("%d", count);
 			}
 		}
-		printf("\n"); // Para quebrar a linha depois de cada linha da grade
+		printf("\n"); 
 	}
 }
 
+int main()
+{
+	char grid[3][MAX_COLUMN] = {
+		{'*', '.', '.'},
+	       	{'.', '*', '.'},
+		{'.', '.', '.'}
+	};
+
+	print_minesweeper_grid(grid, 3, 3);
+
+	return 0;
+}

@@ -19,9 +19,9 @@ Each problem is organized in its own folder, named according to the chapter and 
 To compile and run a solution:
 
 ```bash
-cd pg_01_collatz
-gcc main.c -o collatz
-./collatz < input.txt
+cd pg_xx_xx_problem_name
+gcc pg_xx_xx_problem.c -o problem
+./problem
 ```
 
 Change the process above for each folder and executable name.

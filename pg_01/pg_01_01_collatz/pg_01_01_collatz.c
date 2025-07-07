@@ -1,5 +1,5 @@
 /**
- * @file pg_01_collatz.c
+ * @file pg_01_01_collatz.c
  * @author miguel
  * @brief Computes the maximum Collatz sequence length within a range of natural numbers.
  *
@@ -9,15 +9,12 @@
 
 #include <stdio.h>
 
-#define MAX_NUMBER 1000000  ///< Upper limit for valid input values
+#define MAX_NUMBER 1000000 // Upper bound for extreme points 
 
 /**
- * @brief Computes the length of the Collatz sequence for a given number.
- *
- * Applies the 3n+1 rule recursively until reaching 1.
- * 
- * @param n The starting number (must be 1 <= n <= MAX_NUMBER).
- * @return Length of the sequence, or -1 if input is invalid.
+ * @brief Returns the Collatz sequence length for a given natural number.
+ * @param n A natural number in [1, MAX_NUMBER].
+ * @return Length of sequence, or -1 if out of bounds.
  */
 int collatz_length(int n)
 {
@@ -45,11 +42,9 @@ int collatz_length(int n)
 }
 
 /**
- * @brief Computes the maximum Collatz sequence length in a given inclusive range.
- * 
- * @param a One endpoint of the range.
- * @param b The other endpoint of the range.
- * @return Maximum sequence length in the range [min(a, b), max(a, b)], or -1 if invalid input.
+ * @brief Returns the maximum Collatz sequence length within a range with extremes a and b.
+ *
+ * Inputs can be in any order. Returns -1 if either endpoint is out of bounds.
  */
 int max_collatz_length(int a, int b)
 {
@@ -75,11 +70,6 @@ int max_collatz_length(int a, int b)
 	return max_length;
 }
 
-/**
- * @brief Test driver for the Collatz sequence functions.
- *
- * Uncomment the examples below to test specific ranges.
- */
 int main()
 {
 	printf("%d\n", max_collatz_length(1, 3));
@@ -90,4 +80,3 @@ int main()
 
 	return 0;
 }
-

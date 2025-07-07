@@ -1,12 +1,10 @@
 /**
- * @file pg_03_the_trip.c
+ * @file pg_01_03_the_trip.c
  * @author miguel
- * @brief For each set of n floats, calculates how much must be exchanged 
- * between individuals so that everyone has the same amount (equal to the average).
- * 
- * The program supports multiple sets of values and computes the total exchange needed
- * to equalize values for each group. Exchange is calculated as the total amount that 
- * must be given by those who have more than the average.
+ * @brief Computes how much money needs to be exchanged so that all individuals in a group
+ * end up with the same amount (equal to the average).
+ *
+ * Input: multiple groups of float values. Output: exchange amount per group.
  */
 
 #include <stdio.h>
@@ -71,12 +69,6 @@ float total_exchange(float numbers[MAX_STUDENTS], int n)
 	return exchange;
 }
 
-/**
- * @brief Main function that reads multiple sets of expenses and prints the total exchange needed.
- * 
- * The input consists of multiple groups. Each group starts with an integer n (number of students),
- * followed by n float values representing individual expenses. Input ends when n is zero.
- */
 int main()
 {
 	int n;
@@ -85,31 +77,31 @@ int main()
 	while (1)
 	{
 		scanf("%d", &n);
-		/* validates n */
+
 		if (n < 0)
 		{
+			// Invalid group size
 			return -1;
 		}
-		
-		/* finishes when n equals 0 */
 		else if (n == 0)
 		{
+			// End of input
 			break;
 		}
 
-		else
+		int invalid = 0;
+		for (int i = 0; i < n; i++)
 		{
-			for (int i = 0; i < n; i++)
+			scanf("%f", &expenses[i]);
+			if (expenses[i] < 0 || expenses[i] > MAX_MONEY)
 			{
-				scanf("%f", &expenses[i]);
-
-				/* validates money per student */
-				if (expenses[i] < 0 || expenses[i] > MAX_MONEY)
-				{
-					break;
-				}
+				invalid = 1;
 			}
 		}
+
+		if (invalid)
+			continue;
+
 		float exchange = total_exchange(expenses, n);
 		printf("$%.2f\n", exchange);
 	}
