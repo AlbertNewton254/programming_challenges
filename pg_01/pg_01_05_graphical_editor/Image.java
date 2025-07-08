@@ -14,6 +14,7 @@
  * 
  * @author Miguel
  */
+
 public class Image {
     private final char[][] pixels;
 
