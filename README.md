@@ -1,44 +1,43 @@
 # Programming Challenges Solutions
 
-This repository contains solutions to selected problems from the book  
-**"Programming Challenges: The Programming Contest Training Manual"**  
+This repository contains my personal solutions to selected problems from the book  
+**_Programming Challenges: The Programming Contest Training Manual_**  
 by Steven S. Skiena and Miguel A. Revilla.
 
-## Repository Structure
+## 📁 Repository Structure
 
-Each problem is organized in its own folder, named according to the chapter and problem title.
+Each problem is organized in its own folder, named according to the chapter and problem title (e.g., `pg_01_01_collatz`, `pg_01_04_lcd_display`).
 
-## Technologies Used
+## 🛠️ Technologies Used
 
-- Language: **C** and Java
-- Build System: Manual compilation (e.g., `gcc main.c -o solution`, `javac Main.java`)
-- Platform: Cross-platform (tested on Unix-like systems)
+- **Languages**: C and Java
+- **Build System**: Manual compilation
+- **Platform**: Cross-platform (tested on Unix-like systems)
 
-## Getting Started
+## 🚀 Getting Started
 
-To compile and run a C solution:
+### Compile and run a C solution:
 
 ```bash
 cd pg_xx_xx_problem_name
 gcc pg_xx_xx_problem.c -o problem
-./problem_name
-```
+./problem
+```bash
 
-To compile and run a Java solution:
+### Compile and run a Java solution:
 
 ```bash
 cd pg_xx_xx_problem_name
-...
 javac Main.java
 java Main
-```
+```bash
 
-Change the process above for each folder and executable name.
+🔁 Replace pg_xx_xx_problem_name and filenames accordingly.
 
-## Reference
+## References
 
 Skiena, S. S., & Revilla, M. A. (2003). Programming Challenges: The Programming Contest Training Manual. Springer.
 
 ## Contribution
 
-This is a personal learning project, but feel free to fork or suggest improvements via pull requests. Happy coding! :)
+This is a personal learning project, but feel free to fork, explore, or suggest improvements via pull requests. Happy coding! 🚀

@@ -1,5 +1,91 @@
 import java.util.Scanner;
 
+/**
+ * Represents a simple bitmap image using a 2D character grid.
+ * <p>This class provides basic image manipulation operations such as:
+ * <ul>
+ *   <li>Clearing the image</li>
+ *   <li>Coloring individual pixels</li>
+ *   <li>Drawing vertical and horizontal lines</li>
+ *   <li>Filling rectangles</li>
+ *   <li>Flood fill (similar to a paint bucket tool)</li>
+ *   <li>Saving the image to standard output</li>
+ * </ul>
+ *
+ * <p>Coordinates are 1-based, with (1,1) at the top-left corner.
+ *
+ * @author Miguel
+ */
+class Image {
+    private final char[][] pixels;
+
+    public Image(int m, int n) {
+        pixels = new char[n][m];
+        clear();
+    }
+
+    public void clear() {
+        for (int i = 0; i < pixels.length; i++) {
+            for (int j = 0; j < pixels[i].length; j++) {
+                pixels[i][j] = 'O';
+            }
+        }
+    }
+
+    public void colorPixel(int x, int y, char c) {
+        pixels[y - 1][x - 1] = c;
+    }
+
+    public void verticalLine(int x, int y1, int y2, char c) {
+        for (int i = Math.min(y1, y2) - 1; i <= Math.max(y1, y2) - 1; i++) {
+            pixels[i][x - 1] = c;
+        }
+    }
+
+    public void horizontalLine(int x1, int x2, int y, char c) {
+        for (int i = Math.min(x1, x2) - 1; i <= Math.max(x1, x2) - 1; i++) {
+            pixels[y - 1][i] = c;
+        }
+    }
+
+    public void fillRectangle(int x1, int y1, int x2, int y2, char c) {
+        for (int i = Math.min(y1, y2) - 1; i <= Math.max(y1, y2) - 1; i++) {
+            for (int j = Math.min(x1, x2) - 1; j <= Math.max(x1, x2) - 1; j++) {
+                pixels[i][j] = c;
+            }
+        }
+    }
+
+    public void floodFill(int x, int y, char newColor) {
+        char oldColor = pixels[y - 1][x - 1];
+        if (oldColor == newColor) return;
+        fill(x - 1, y - 1, oldColor, newColor);
+    }
+
+    private void fill(int x, int y, char oldColor, char newColor) {
+        if (x < 0 || x >= pixels[0].length || y < 0 || y >= pixels.length) return;
+        if (pixels[y][x] != oldColor) return;
+        pixels[y][x] = newColor;
+        fill(x + 1, y, oldColor, newColor);
+        fill(x - 1, y, oldColor, newColor);
+        fill(x, y + 1, oldColor, newColor);
+        fill(x, y - 1, oldColor, newColor);
+    }
+
+    public void saveFile(String name) {
+        System.out.println(name);
+        for (char[] row : pixels) {
+            for (char c : row) {
+                System.out.print(c);
+            }
+            System.out.println();
+        }
+    }
+}
+
+/**
+ * Main class that interprets commands and manipulates the image accordingly.
+ */
 public class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
@@ -76,14 +162,14 @@ public class Main {
                         break;
                     }
                     case 'X': {
-                        return; // Exit the program
+                        return;
                     }
                     default:
-                        // Ignore unknown commands
+                        /* Ignore unknown commands */
                         break;
                 }
             } catch (Exception e) {
-                // Optionally print error for debugging
+                /* Optionally log error for debugging */
                 // System.err.println("Error processing line: " + line);
             }
         }
