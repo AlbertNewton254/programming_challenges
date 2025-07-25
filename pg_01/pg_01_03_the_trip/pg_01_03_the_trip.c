@@ -2,76 +2,77 @@
 #include <math.h>
 
 #define MAX_STUDENTS 1000
-#define MAX_MONEY 10000.0
+#define MAX_MONEY 10000.0f
+#define MAX_DECIMALS 2
 
-// Check if group size is valid
-int is_valid_group_size(int n) {
-	return n > 0 && n <= MAX_STUDENTS;
+static int is_valid_group_size(int n) {
+    return n > 0 && n <= MAX_STUDENTS;
 }
 
-// Check if a single expense is valid
-int is_valid_expense(float expense) {
-	return expense >= 0 && expense <= MAX_MONEY;
+static int is_valid_expense(float expense) {
+    return expense >= 0.0f && expense <= MAX_MONEY;
 }
 
-// Calculate the average of expenses
-float average(float expenses[], int n) {
-	float sum = 0;
-	for (int i = 0; i < n; i++) {
-		sum += expenses[i];
-	}
-	return sum / n;
+static float calculate_average(const float expenses[], int n) {
+    float sum = 0.0f;
+    for (int i = 0; i < n; i++) {
+        sum += expenses[i];
+    }
+    return sum / n;
 }
 
-// Calculate total amount to exchange so everyone has the average
-float total_exchange(float expenses[], int n) {
-	float avg = average(expenses, n);
-	float exchange = 0;
-	for (int i = 0; i < n; i++) {
-		float diff = expenses[i] - avg;
-		if (diff > 0)
-			exchange += diff;
-	}
-	// Round to 2 decimal places
-	return floor(exchange * 100 + 0.5) / 100;
+static float calculate_exchange(const float expenses[], int n) {
+    const float avg = calculate_average(expenses, n);
+    float exchange = 0.0f;
+    
+    for (int i = 0; i < n; i++) {
+        const float diff = expenses[i] - avg;
+        if (diff > 0.0f) {
+            exchange += diff;
+        }
+    }
+    
+    // Round to 2 decimal places
+    const float scale = powf(10.0f, MAX_DECIMALS);
+    return floorf(exchange * scale + 0.5f) / scale;
 }
 
-// Read expenses from input; returns 1 if valid, 0 otherwise
-int read_expenses(float expenses[], int n) {
-	for (int i = 0; i < n; i++) {
-		if (scanf("%f", &expenses[i]) != 1)
-			return 0; // input failure
-		if (!is_valid_expense(expenses[i]))
-			return 0; // invalid expense
-	}
-	return 1;
+static int read_expenses(float expenses[], int n) {
+    for (int i = 0; i < n; i++) {
+        if (scanf("%f", &expenses[i]) != 1) {
+            return 0;
+        }
+        if (!is_valid_expense(expenses[i])) {
+            return 0;
+        }
+    }
+    return 1;
 }
 
-// Process groups until input ends or zero group size is read
-void process_groups() {
-	int n;
-	float expenses[MAX_STUDENTS];
+static void process_groups(void) {
+    int n;
+    float expenses[MAX_STUDENTS];
 
-	while (1) {
-		if (scanf("%d", &n) != 1)
-			break; // EOF or error
+    while (scanf("%d", &n) == 1) {
+        if (n == 0) {
+            break;
+        }
 
-		if (n == 0)
-			break; // end of input
+        if (!is_valid_group_size(n)) {
+            fprintf(stderr, "Error: Invalid group size %d\n", n);
+            continue;
+        }
 
-		if (!is_valid_group_size(n))
-			continue; // skip invalid group sizes
+        if (!read_expenses(expenses, n)) {
+            fprintf(stderr, "Error: Invalid expenses for group size %d\n", n);
+            continue;
+        }
 
-		if (!read_expenses(expenses, n))
-			continue; // skip invalid expenses
-
-		float exchange = total_exchange(expenses, n);
-		printf("$%.2f\n", exchange);
-	}
+        printf("$%.2f\n", calculate_exchange(expenses, n));
+    }
 }
 
 int main(void) {
-	process_groups();
-	return 0;
+    process_groups();
+    return 0;
 }
-
